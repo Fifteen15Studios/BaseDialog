@@ -39,6 +39,9 @@ public class BaseDialog extends Dialog {
     private String negativeLabel;
     private String neutralLabel;
 
+    private int layoutID = -1;
+    private View layout;
+
     private View.OnClickListener positiveListener;
     private View.OnClickListener negativeListener;
     private View.OnClickListener neutralListener;
@@ -53,6 +56,10 @@ public class BaseDialog extends Dialog {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.dialog_base);
+        if(layoutID != -1)
+            setContentView(layoutID);
+        else if(layout!=null)
+            setContentView(layout);
         setUseButton(useButton);
         setTitle(title);
         setText(text);
@@ -199,6 +206,7 @@ public class BaseDialog extends Dialog {
      */
     @Override
     public void setContentView(@NonNull View view) {
+        layout = view;
         try {
             setContentView(view.getId());
         }
@@ -215,6 +223,7 @@ public class BaseDialog extends Dialog {
      */
     @Override
     public void setContentView(int layoutResID) {
+        layoutID = layoutResID;
         try {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             ViewGroup parent = findViewById(R.id.content);
@@ -249,10 +258,10 @@ public class BaseDialog extends Dialog {
             int visibleChildren = children;
 
             for(int j = 0; j < children; j++)
-            if(row.getChildAt(i).getVisibility() == View.GONE)
-            {
-                visibleChildren--;
-            }
+                if(row.getChildAt(i).getVisibility() == View.GONE)
+                {
+                    visibleChildren--;
+                }
 
             if(visibleChildren==0)
                 visibleRows--;
