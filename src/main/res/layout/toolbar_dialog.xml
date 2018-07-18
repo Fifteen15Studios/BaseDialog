@@ -6,7 +6,5 @@
     android:layout_height="wrap_content"
     android:minHeight="?attr/actionBarSize"
     android:background="@color/transparent"
-    style="@style/Base.DialogWindowTitle.AppCompat"
-    app:title="@string/settings_label"
-     />
+    style="@style/Base.DialogWindowTitle.AppCompat" />
     <!--app:titleTextColor=""-->
