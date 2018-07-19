@@ -52,8 +52,6 @@ class BaseDialog (context: Context) : Dialog(context) {
         setUseButton(useButton)
         setTitle(title)
         setText(text)
-
-        hideButtons()
     }
 
     /**
@@ -323,26 +321,19 @@ class BaseDialog (context: Context) : Dialog(context) {
                 BUTTON_POSITIVE -> {
                     hidePositive = false
                     okButton.setOnClickListener{ dismiss(); }
-                    okButton.visibility = View.VISIBLE
-                    cancelButton.visibility = View.GONE
-                    neutralButton.visibility = View.GONE
                 }
                 BUTTON_NEGATIVE -> {
                     hideNegative = false
                     cancelButton.setOnClickListener{ cancel() }
-                    cancelButton.visibility = View.VISIBLE
-                    okButton.visibility = View.GONE
-                    neutralButton.visibility = View.GONE
                 }
                 BUTTON_NEUTRAL -> {
                     hideNeutral = false
                     neutralButton.setOnClickListener{ dismiss() }
-                    cancelButton.visibility = View.GONE
-                    okButton.visibility = View.GONE
-                    neutralButton.visibility = View.VISIBLE
                 }
             }
         }
+
+        hideButtons()
     }
 
     /**
