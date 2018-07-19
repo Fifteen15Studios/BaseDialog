@@ -31,9 +31,9 @@ class BaseDialog (context: Context) : Dialog(context) {
     private var hideNeutral = false
     private var hideNegative = true
 
-    private var positiveLabel = ""
-    private var negativeLabel = ""
-    private var neutralLabel = ""
+    private var positiveLabel = context.resources.getString(android.R.string.ok)
+    private var negativeLabel = context.resources.getString(android.R.string.cancel)
+    private var neutralLabel = context.resources.getString(R.string.dialog_neutral)
 
     private var layoutID = -1
     private var layout = View(context)
