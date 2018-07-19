@@ -10,12 +10,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RelativeLayout
-import android.widget.ScrollView
-import android.widget.TableLayout
-import android.widget.TableRow
-import android.widget.TextView
+import android.widget.*
+import java.lang.IllegalStateException
 
 class BaseDialog (context: Context) : Dialog(context) {
 
@@ -186,7 +182,14 @@ class BaseDialog (context: Context) : Dialog(context) {
         layout = view
         try {
             val parent = findViewById<ViewGroup>(R.id.content)
-            parent.addView(view);
+            parent.addView(view, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
+        }
+        catch (e :  IllegalStateException)
+        {
+            val parent = findViewById<ViewGroup>(R.id.content)
+            val viewParent = view.parent as ViewGroup
+            viewParent.removeView(view)
+            parent.addView(view, ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
         }
         catch (e : Exception)
         {
@@ -318,18 +321,21 @@ class BaseDialog (context: Context) : Dialog(context) {
         if(okButton != null && cancelButton != null && neutralButton != null) {
             when (button) {
                 BUTTON_POSITIVE -> {
+                    hidePositive = false
                     okButton.setOnClickListener({ dismiss(); })
                     okButton.visibility = View.VISIBLE
                     cancelButton.visibility = View.GONE
                     neutralButton.visibility = View.GONE
                 }
-                 BUTTON_NEGATIVE -> {
-                     cancelButton.setOnClickListener({ cancel() })
-                     cancelButton.visibility = View.VISIBLE
-                     okButton.visibility = View.GONE
-                     neutralButton.visibility = View.GONE
-                 }
-                 BUTTON_NEUTRAL -> {
+                BUTTON_NEGATIVE -> {
+                    hideNegative = false
+                    cancelButton.setOnClickListener({ cancel() })
+                    cancelButton.visibility = View.VISIBLE
+                    okButton.visibility = View.GONE
+                    neutralButton.visibility = View.GONE
+                }
+                BUTTON_NEUTRAL -> {
+                    hideNeutral = false
                     neutralButton.setOnClickListener({ dismiss() })
                     cancelButton.visibility = View.GONE
                     okButton.visibility = View.GONE
