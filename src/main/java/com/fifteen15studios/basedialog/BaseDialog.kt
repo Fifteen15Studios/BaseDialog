@@ -22,7 +22,7 @@ class BaseDialog (context: Context) : Dialog(context) {
     }
 
     private var cancelled = false
-    private var useButton = 0
+    private var useButton = -2
 
     private var text = ""
     private var title = ""
@@ -39,7 +39,7 @@ class BaseDialog (context: Context) : Dialog(context) {
     private var layout = View(context)
 
     private var positiveListener = View.OnClickListener { dismiss() }
-    private var negativeListener = View.OnClickListener { dismiss() }
+    private var negativeListener = View.OnClickListener { cancel() }
     private var neutralListener = View.OnClickListener { dismiss() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
