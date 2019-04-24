@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.text.method.LinkMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.*
 import java.lang.IllegalStateException
 
-class BaseDialog (context: Context) : Dialog(context) {
+open class BaseDialog (context: Context) : Dialog(context) {
 
     companion object {
         const val BUTTON_POSITIVE = 1
@@ -113,7 +113,7 @@ class BaseDialog (context: Context) : Dialog(context) {
     {
         val button = findViewById<Button>(R.id.neutralButton)
 
-        negativeLabel = if(text !=null && text != "") { text }
+        neutralLabel = if(text !=null && text != "") { text }
         else {context.resources.getString(R.string.dialog_neutral)}
 
         if(listener!=null)
@@ -405,6 +405,26 @@ class BaseDialog (context: Context) : Dialog(context) {
         }
 
         return View.GONE
+    }
+
+    override fun show() {
+        this.setOnShowListener {
+            val negativeButton = findViewById<Button>(R.id.negativeButton)
+
+            if(negativeButton != null && negativeLabel != null && negativeLabel != "")
+                negativeButton.text = negativeLabel
+
+            val positiveButton = findViewById<Button>(R.id.positiveButton)
+
+            if(positiveButton != null && positiveLabel != null && positiveLabel != "")
+                positiveButton.text = positiveLabel
+
+            val neutralButton = findViewById<Button>(R.id.neutralButton)
+
+            if(neutralButton != null && neutralLabel != null && neutralLabel != "")
+                neutralButton.text = neutralLabel
+        }
+        super.show()
     }
 
     override fun onWindowFocusChanged(hasFocus : Boolean) {
