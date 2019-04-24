@@ -411,17 +411,17 @@ open class BaseDialog (context: Context) : Dialog(context) {
         this.setOnShowListener {
             val negativeButton = findViewById<Button>(R.id.negativeButton)
 
-            if(negativeButton != null && negativeLabel != null && negativeLabel != "")
+            if(negativeButton != null && negativeLabel != "")
                 negativeButton.text = negativeLabel
 
             val positiveButton = findViewById<Button>(R.id.positiveButton)
 
-            if(positiveButton != null && positiveLabel != null && positiveLabel != "")
+            if(positiveButton != null && positiveLabel != "")
                 positiveButton.text = positiveLabel
 
             val neutralButton = findViewById<Button>(R.id.neutralButton)
 
-            if(neutralButton != null && neutralLabel != null && neutralLabel != "")
+            if(neutralButton != null && neutralLabel != "")
                 neutralButton.text = neutralLabel
         }
         super.show()
