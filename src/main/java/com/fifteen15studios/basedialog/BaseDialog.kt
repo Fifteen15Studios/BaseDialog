@@ -16,19 +16,19 @@ import java.lang.IllegalStateException
 open class BaseDialog (context: Context) : Dialog(context) {
 
     companion object {
-        const val BUTTON_POSITIVE = 1
-        const val BUTTON_NEGATIVE = -1
-        const val BUTTON_NEUTRAL = 0
+        const val BUTTON_POSITIVE = 4
+        const val BUTTON_NEUTRAL = 2
+        const val BUTTON_NEGATIVE = 1
     }
 
     private var cancelled = false
-    private var useButton = -2
+    private var useButton = 0
 
     private var text = ""
     private var title = ""
 
     private var hidePositive = true
-    private var hideNeutral = false
+    private var hideNeutral = true
     private var hideNegative = true
 
     private var positiveLabel = context.resources.getString(android.R.string.ok)
@@ -75,6 +75,8 @@ open class BaseDialog (context: Context) : Dialog(context) {
     {
         val okButton = findViewById<Button>(R.id.positiveButton)
 
+        useButton = useButton or BUTTON_POSITIVE
+
         positiveLabel = if(text !=null && text != "") { text }
         else { context.resources.getString(android.R.string.ok) }
 
@@ -112,6 +114,8 @@ open class BaseDialog (context: Context) : Dialog(context) {
     fun setNeutralButton(text: String?, listener: View.OnClickListener?)
     {
         val button = findViewById<Button>(R.id.neutralButton)
+
+        useButton = useButton or BUTTON_NEUTRAL
 
         neutralLabel = if(text !=null && text != "") { text }
         else {context.resources.getString(R.string.dialog_neutral)}
@@ -152,6 +156,8 @@ open class BaseDialog (context: Context) : Dialog(context) {
     fun setNegativeButton(text: String?, listener: View.OnClickListener?)
     {
         val cancelButton = findViewById<Button>(R.id.negativeButton)
+
+        useButton = useButton or BUTTON_NEGATIVE
 
         negativeLabel = if(text !=null && text != "") { text }
         else { context.resources.getString(android.R.string.cancel) }
@@ -309,6 +315,12 @@ open class BaseDialog (context: Context) : Dialog(context) {
      * Default to button to show
      *
      * @param button Accepts constants {@link #BUTTON_NEGATIVE}, {@link #BUTTON_POSITIVE}, or {@link #BUTTON_NEUTRAL}
+     *
+     * Use these in conjunction with each other using logical and
+     *
+     * Java Ex: setUseButton(BUTTON_POSITIVE & BUTTON_NEGATIVE)
+     * Kotlin Ex: setUseButton(BUTTON_POSITIVE and BUTTON_NEGATIVE)
+     *
      */
     fun setUseButton(button : Int) {
         this.useButton = button
@@ -317,20 +329,36 @@ open class BaseDialog (context: Context) : Dialog(context) {
         val cancelButton = findViewById<Button>(R.id.negativeButton)
         val neutralButton = findViewById<Button>(R.id.neutralButton)
         if(okButton != null && cancelButton != null && neutralButton != null) {
-            when (button) {
-                BUTTON_POSITIVE -> {
-                    hidePositive = false
-                    okButton.setOnClickListener{ dismiss(); }
-                }
-                BUTTON_NEGATIVE -> {
-                    hideNegative = false
-                    cancelButton.setOnClickListener{ cancel() }
-                }
-                BUTTON_NEUTRAL -> {
-                    hideNeutral = false
-                    neutralButton.setOnClickListener{ dismiss() }
-                }
+
+            //If positive button enabled
+            if(button and BUTTON_POSITIVE == BUTTON_POSITIVE)
+            {
+                hidePositive = false
+                if(!okButton.hasOnClickListeners())
+                    okButton.setOnClickListener{ dismiss()}
             }
+            else
+                hidePositive = true
+
+            //If neutral button enabled
+            if(button and BUTTON_NEUTRAL == BUTTON_NEUTRAL)
+            {
+                hideNeutral = false
+                if(!neutralButton.hasOnClickListeners())
+                    neutralButton.setOnClickListener{ dismiss() }
+            }
+            else
+                hideNeutral = true
+
+            //If negative button enabled
+            if(button and BUTTON_NEGATIVE == BUTTON_NEGATIVE)
+            {
+                hideNegative = false
+                if(!cancelButton.hasOnClickListeners())
+                    cancelButton.setOnClickListener{ cancel() }
+            }
+            else
+                hideNegative = true
         }
 
         hideButtons()
@@ -348,18 +376,23 @@ open class BaseDialog (context: Context) : Dialog(context) {
      *
      * @param button which button to hid. Can be {@link #BUTTON_NEGATIVE}, {@link #BUTTON_POSITIVE}, or {@link #BUTTON_NEUTRAL}
      * @param hide true if you want to hide the button, otherwise false
+     *
+     * Use these in conjunction with each other using logical and
+     *
+     * Java Ex: setHideButton(BUTTON_POSITIVE & BUTTON_NEGATIVE)
+     * Kotlin Ex: setHideButton(BUTTON_POSITIVE and BUTTON_NEGATIVE)
      */
     fun setHideButton(button: Int, hide : Boolean)
     {
-        when (button)
-        {
-            BUTTON_NEGATIVE ->
-                hideNegative = hide
-            BUTTON_NEUTRAL ->
-                hideNeutral = hide
-            BUTTON_POSITIVE ->
-                hidePositive = hide
-        }
+        //turn off bits
+        useButton = useButton.and(button.inv())
+
+        if(button and BUTTON_POSITIVE == BUTTON_POSITIVE)
+            hidePositive = hide
+        if(button and BUTTON_NEUTRAL == BUTTON_NEUTRAL)
+            hideNeutral = hide
+        if(button and BUTTON_NEGATIVE == BUTTON_NEGATIVE)
+            hideNegative = hide
 
         hideButtons()
     }
@@ -423,6 +456,8 @@ open class BaseDialog (context: Context) : Dialog(context) {
 
             if(neutralButton != null && neutralLabel != "")
                 neutralButton.text = neutralLabel
+
+            hideButtons()
         }
         super.show()
     }
