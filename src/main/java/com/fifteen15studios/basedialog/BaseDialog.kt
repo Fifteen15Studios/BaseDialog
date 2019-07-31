@@ -322,7 +322,9 @@ open class BaseDialog (context: Context) : Dialog(context) {
      *
      */
     fun setUseButton(button : Int) {
-        this.useButton = button
+        useButton = button
+
+        val invalid = button < 1 || button > 7
 
         val okButton = findViewById<Button>(R.id.positiveButton)
         val cancelButton = findViewById<Button>(R.id.negativeButton)
@@ -339,8 +341,8 @@ open class BaseDialog (context: Context) : Dialog(context) {
             else
                 hidePositive = true
 
-            //If neutral button enabled
-            if(button and BUTTON_NEUTRAL == BUTTON_NEUTRAL)
+            // If neutral button enabled or no buttons enabled
+            if(button and BUTTON_NEUTRAL == BUTTON_NEUTRAL || invalid)
             {
                 hideNeutral = false
                 if(!neutralButton.hasOnClickListeners())
