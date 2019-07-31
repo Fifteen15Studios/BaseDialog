@@ -105,7 +105,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
     }
 
     /**
-     * If this method is never called, no positive button will be shown
+     * If this method is never called, no neutral button will be shown
      *
      * @param text Button text. If null, it will be @strings\neutral
      * @param listener what to do when the button is clicked
@@ -331,7 +331,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
         val neutralButton = findViewById<Button>(R.id.neutralButton)
         if(okButton != null && cancelButton != null && neutralButton != null) {
 
-            //If positive button enabled
+            // If positive button enabled
             if(button and BUTTON_POSITIVE == BUTTON_POSITIVE)
             {
                 hidePositive = false
@@ -351,7 +351,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
             else
                 hideNeutral = true
 
-            //If negative button enabled
+            // If negative button enabled
             if(button and BUTTON_NEGATIVE == BUTTON_NEGATIVE)
             {
                 hideNegative = false
@@ -488,7 +488,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
         if(text!=null && text != "" && textView !=null)
         {
             textView.text = text
-            //add links, if present
+            // add links, if present
             textView.movementMethod = LinkMovementMethod.getInstance()
 
             textView.visibility = View.VISIBLE
