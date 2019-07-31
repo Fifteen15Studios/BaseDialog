@@ -441,26 +441,28 @@ open class BaseDialog (context: Context) : Dialog(context) {
         return View.GONE
     }
 
-    override fun show() {
-        this.setOnShowListener {
-            val negativeButton = findViewById<Button>(R.id.negativeButton)
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
 
-            if(negativeButton != null && negativeLabel != "")
-                negativeButton.text = negativeLabel
+        val negativeButton = findViewById<Button>(R.id.negativeButton)
 
-            val positiveButton = findViewById<Button>(R.id.positiveButton)
+        if(negativeButton != null && negativeLabel != "")
+            negativeButton.text = negativeLabel
 
-            if(positiveButton != null && positiveLabel != "")
-                positiveButton.text = positiveLabel
+        val positiveButton = findViewById<Button>(R.id.positiveButton)
 
-            val neutralButton = findViewById<Button>(R.id.neutralButton)
+        if(positiveButton != null && positiveLabel != "")
+            positiveButton.text = positiveLabel
 
-            if(neutralButton != null && neutralLabel != "")
-                neutralButton.text = neutralLabel
+        val neutralButton = findViewById<Button>(R.id.neutralButton)
 
-            hideButtons()
-        }
-        super.show()
+        if(neutralButton != null && neutralLabel != "")
+            neutralButton.text = neutralLabel
+
+        hideButtons()
+
+        if(text != "")
+            setText(text)
     }
 
     override fun onWindowFocusChanged(hasFocus : Boolean) {
