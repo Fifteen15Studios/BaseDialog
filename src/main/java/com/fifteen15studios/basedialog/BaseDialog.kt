@@ -51,7 +51,6 @@ open class BaseDialog (context: Context) : Dialog(context) {
             setContentView(layout)
         setUseButton(useButton)
         setTitle(title)
-        setText(text)
     }
 
     /**
@@ -482,14 +481,15 @@ open class BaseDialog (context: Context) : Dialog(context) {
      */
     fun setText(text : CharSequence?)
     {
-        setContentView(R.layout.text_screen)
-
         val textView = findViewById<TextView>(R.id.text)
-        if(text!=null && textView !=null)
+
+        if(text!=null && text != "" && textView !=null)
         {
             textView.text = text
             //add links, if present
             textView.movementMethod = LinkMovementMethod.getInstance()
+
+            textView.visibility = View.VISIBLE
         }
 
         if(text!=null)
