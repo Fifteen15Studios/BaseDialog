@@ -373,31 +373,6 @@ open class BaseDialog (context: Context) : Dialog(context) {
         return useButton
     }
 
-    /**
-     *
-     * @param button which button to hid. Can be {@link #BUTTON_NEGATIVE}, {@link #BUTTON_POSITIVE}, or {@link #BUTTON_NEUTRAL}
-     * @param hide true if you want to hide the button, otherwise false
-     *
-     * Use these in conjunction with each other using logical and
-     *
-     * Java Ex: setHideButton(BUTTON_POSITIVE & BUTTON_NEGATIVE)
-     * Kotlin Ex: setHideButton(BUTTON_POSITIVE and BUTTON_NEGATIVE)
-     */
-    fun setHideButton(button: Int, hide : Boolean)
-    {
-        //turn off bits
-        useButton = useButton.and(button.inv())
-
-        if(button and BUTTON_POSITIVE == BUTTON_POSITIVE)
-            hidePositive = hide
-        if(button and BUTTON_NEUTRAL == BUTTON_NEUTRAL)
-            hideNeutral = hide
-        if(button and BUTTON_NEGATIVE == BUTTON_NEGATIVE)
-            hideNegative = hide
-
-        hideButtons()
-    }
-
     private fun hideButtons()
     {
         val positiveButton = findViewById<Button>(R.id.positiveButton)
@@ -498,5 +473,25 @@ open class BaseDialog (context: Context) : Dialog(context) {
 
         if(text!=null)
             this.text = text.toString()
+    }
+
+    /**
+     * Adds a new button to the dialog. This button will simply close the dialog when clicked
+     *
+     * @param button - Which button to show.
+     *   Can be [BUTTON_NEGATIVE], [BUTTON_POSITIVE], or [BUTTON_NEUTRAL]
+     */
+    fun addButton(button: Int)
+    {
+        if(button in 1..7)
+            // Logical "or" to ensure that the button is on
+            setUseButton(useButton or button)
+    }
+
+    fun removeButton(button: Int)
+    {
+        if(button in 1..7)
+            // Logical "and" with inverted (not) button to ensure button is off
+            setUseButton( useButton and button.inv() )
     }
 }
