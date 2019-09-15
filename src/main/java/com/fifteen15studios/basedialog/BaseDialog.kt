@@ -51,14 +51,13 @@ open class BaseDialog (context: Context) : Dialog(context) {
             setContentView(layout)
         setUseButton(useButton)
         setTitle(title)
-        setText(text)
     }
 
     /**
      *  If this method is never called, no positive button will be shown
      *
-     * @param textResource Button text resource ID
-     * @param listener what to do when the button is clicked
+     * @param textResource - Button text resource ID
+     * @param listener - What to do when the button is clicked
      */
     fun setPositiveButton(textResource : Int, listener : View.OnClickListener?)
     {
@@ -68,8 +67,8 @@ open class BaseDialog (context: Context) : Dialog(context) {
     /**
      * If this method is never called, no positive button will be shown
      *
-     * @param text Button text. If null, it will be android.R.string.ok
-     * @param listener what to do when the button is clicked
+     * @param text - Button text. If null, it will be [android.R.string.ok]
+     * @param listener - What to do when the button is clicked
      */
     fun setPositiveButton(text : String?, listener : View.OnClickListener?)
     {
@@ -97,8 +96,8 @@ open class BaseDialog (context: Context) : Dialog(context) {
     /**
      *  If this method is never called, no neutral button will be shown
      *
-     * @param textResource Button text resource ID
-     * @param listener what to do when the button is clicked
+     * @param textResource - Button text resource ID
+     * @param listener - What to do when the button is clicked
      */
     fun setNeutralButton(textResource : Int, listener : View.OnClickListener? )
     {
@@ -106,10 +105,10 @@ open class BaseDialog (context: Context) : Dialog(context) {
     }
 
     /**
-     * If this method is never called, no positive button will be shown
+     * If this method is never called, no neutral button will be shown
      *
-     * @param text Button text. If null, it will be @strings\neutral
-     * @param listener what to do when the button is clicked
+     * @param text - Button text. If null, it will be [R.string.dialog_neutral]
+     * @param listener - What to do when the button is clicked
      */
     fun setNeutralButton(text: String?, listener: View.OnClickListener?)
     {
@@ -135,11 +134,11 @@ open class BaseDialog (context: Context) : Dialog(context) {
     }
 
     /**
-     * If this method is never called, negative button will have text of android.R.string.cancel
+     * If this method is never called, negative button will have text of [android.R.string.cancel]
      * and will cancel the dialog when clicked.
      *
-     * @param textResource Button text resource ID
-     * @param listener What to do when button is clicked.
+     * @param textResource - Button text resource ID
+     * @param listener - What to do when button is clicked.
      */
     fun setNegativeButton(textResource: Int, listener : View.OnClickListener? )
     {
@@ -147,11 +146,11 @@ open class BaseDialog (context: Context) : Dialog(context) {
     }
 
     /**
-     * If this method is never called, negative button will have text of android.R.string.cancel
+     * If this method is never called, negative button will have text of [android.R.string.cancel]
      * and will cancel the dialog when clicked.
      *
-     * @param text Button text. If null, it will be android.R.string.cancel
-     * @param listener What to do when button is clicked
+     * @param text - Button text. If null, it will be [android.R.string.cancel]
+     * @param listener - What to do when button is clicked
      */
     fun setNegativeButton(text: String?, listener: View.OnClickListener?)
     {
@@ -179,7 +178,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
     /**
      * Sets the middle part of the dialog - below the title, above the buttons
      *
-     * @param view The view that will be displayed as the body of the dialog
+     * @param view - The view that will be displayed as the body of the dialog
      */
 
     override fun setContentView(view : View) {
@@ -204,7 +203,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
     /**
      * Sets the middle part of the dialog - below the title, above the buttons
      *
-     * @param layoutResID resource ID of the view that will be displayed as the body of the dialog
+     * @param layoutResID - Resource ID of the view that will be displayed as the body of the dialog
      */
     override fun setContentView(layoutResID : Int) {
         layoutID = layoutResID
@@ -277,7 +276,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
     /**
      * Changes the title of the dialog. If no title is set, title will be empty
      *
-     * @param titleId Resource ID of the title string
+     * @param titleId - Resource ID of the title string
      */
     override fun setTitle(titleId:Int) {
         setTitle(context.resources.getString(titleId))
@@ -286,7 +285,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
     /**
      * Changes the title of the dialog. If no title is set, or if null, title will be empty
      *
-     * @param title Title to be displayed on the dialog
+     * @param title - Title to be displayed on the dialog
      */
     override fun setTitle(title : CharSequence?) {
         this.title = title.toString()
@@ -297,14 +296,14 @@ open class BaseDialog (context: Context) : Dialog(context) {
 
     /**
      *
-     * @return True if dialog was cancelled, otherwise false
+     * @return - True if dialog was cancelled, otherwise false
      */
     fun isCancelled() : Boolean {
         return cancelled
     }
 
     /**
-     * Cancels operations. Sets "cancelled" as true. Use "isCancelled()" to find if dialog was cancelled
+     * Cancels operations. Sets "cancelled" as true. Use [isCancelled] to find if dialog was cancelled
      */
     override fun cancel() {
         cancelled = true
@@ -314,7 +313,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
     /**
      * Default to button to show
      *
-     * @param button Accepts constants {@link #BUTTON_NEGATIVE}, {@link #BUTTON_POSITIVE}, or {@link #BUTTON_NEUTRAL}
+     * @param button - Accepts constants [BUTTON_NEGATIVE], [BUTTON_POSITIVE], or [BUTTON_NEUTRAL]
      *
      * Use these in conjunction with each other using logical and
      *
@@ -323,14 +322,16 @@ open class BaseDialog (context: Context) : Dialog(context) {
      *
      */
     fun setUseButton(button : Int) {
-        this.useButton = button
+        useButton = button
+
+        val invalid = button < 1 || button > 7
 
         val okButton = findViewById<Button>(R.id.positiveButton)
         val cancelButton = findViewById<Button>(R.id.negativeButton)
         val neutralButton = findViewById<Button>(R.id.neutralButton)
         if(okButton != null && cancelButton != null && neutralButton != null) {
 
-            //If positive button enabled
+            // If positive button enabled
             if(button and BUTTON_POSITIVE == BUTTON_POSITIVE)
             {
                 hidePositive = false
@@ -340,8 +341,8 @@ open class BaseDialog (context: Context) : Dialog(context) {
             else
                 hidePositive = true
 
-            //If neutral button enabled
-            if(button and BUTTON_NEUTRAL == BUTTON_NEUTRAL)
+            // If neutral button enabled or no buttons enabled
+            if(button and BUTTON_NEUTRAL == BUTTON_NEUTRAL || invalid)
             {
                 hideNeutral = false
                 if(!neutralButton.hasOnClickListeners())
@@ -350,7 +351,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
             else
                 hideNeutral = true
 
-            //If negative button enabled
+            // If negative button enabled
             if(button and BUTTON_NEGATIVE == BUTTON_NEGATIVE)
             {
                 hideNegative = false
@@ -365,36 +366,11 @@ open class BaseDialog (context: Context) : Dialog(context) {
     }
 
     /**
-     *
-     * @return default button, one of {@link #BUTTON_NEGATIVE}, {@link #BUTTON_POSITIVE}, or {@link #BUTTON_NEUTRAL}
+     * @return - Which buttons should be displayed. one of [BUTTON_NEGATIVE], [BUTTON_POSITIVE], or [BUTTON_NEUTRAL]
+     *   or a combination of these (values are combines via logical AND)
      */
     fun getUseButton() : Int {
         return useButton
-    }
-
-    /**
-     *
-     * @param button which button to hid. Can be {@link #BUTTON_NEGATIVE}, {@link #BUTTON_POSITIVE}, or {@link #BUTTON_NEUTRAL}
-     * @param hide true if you want to hide the button, otherwise false
-     *
-     * Use these in conjunction with each other using logical and
-     *
-     * Java Ex: setHideButton(BUTTON_POSITIVE & BUTTON_NEGATIVE)
-     * Kotlin Ex: setHideButton(BUTTON_POSITIVE and BUTTON_NEGATIVE)
-     */
-    fun setHideButton(button: Int, hide : Boolean)
-    {
-        //turn off bits
-        useButton = useButton.and(button.inv())
-
-        if(button and BUTTON_POSITIVE == BUTTON_POSITIVE)
-            hidePositive = hide
-        if(button and BUTTON_NEUTRAL == BUTTON_NEUTRAL)
-            hideNeutral = hide
-        if(button and BUTTON_NEGATIVE == BUTTON_NEGATIVE)
-            hideNegative = hide
-
-        hideButtons()
     }
 
     private fun hideButtons()
@@ -421,9 +397,10 @@ open class BaseDialog (context: Context) : Dialog(context) {
 
     /**
      *
-     * @param button Which button to find visibility of.
-     *               Can be {@link #BUTTON_NEGATIVE}, {@link #BUTTON_POSITIVE}, or {@link #BUTTON_NEUTRAL}
-     * @return visibility of button. can be View.GONE, View.VISIBLE, or View.INVISIBLE
+     * @param button - Which button to find visibility of.
+     *   Can be [BUTTON_NEGATIVE], [BUTTON_POSITIVE], or [BUTTON_NEUTRAL]
+     *
+     * @return - Visibility of button. can be [View.GONE], [View.VISIBLE], or [View.INVISIBLE]
      */
     fun getButtonVisibility(button: Int) : Int
     {
@@ -440,26 +417,28 @@ open class BaseDialog (context: Context) : Dialog(context) {
         return View.GONE
     }
 
-    override fun show() {
-        this.setOnShowListener {
-            val negativeButton = findViewById<Button>(R.id.negativeButton)
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
 
-            if(negativeButton != null && negativeLabel != "")
-                negativeButton.text = negativeLabel
+        val negativeButton = findViewById<Button>(R.id.negativeButton)
 
-            val positiveButton = findViewById<Button>(R.id.positiveButton)
+        if(negativeButton != null && negativeLabel != "")
+            negativeButton.text = negativeLabel
 
-            if(positiveButton != null && positiveLabel != "")
-                positiveButton.text = positiveLabel
+        val positiveButton = findViewById<Button>(R.id.positiveButton)
 
-            val neutralButton = findViewById<Button>(R.id.neutralButton)
+        if(positiveButton != null && positiveLabel != "")
+            positiveButton.text = positiveLabel
 
-            if(neutralButton != null && neutralLabel != "")
-                neutralButton.text = neutralLabel
+        val neutralButton = findViewById<Button>(R.id.neutralButton)
 
-            hideButtons()
-        }
-        super.show()
+        if(neutralButton != null && neutralLabel != "")
+            neutralButton.text = neutralLabel
+
+        hideButtons()
+
+        if(text != "")
+            setText(text)
     }
 
     override fun onWindowFocusChanged(hasFocus : Boolean) {
@@ -469,7 +448,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
 
     /** Displays body text of the dialog
      *
-     * @param id if of the text resource to user
+     * @param id - ID of the text resource to use
      */
     fun setText(id : Int)
     {
@@ -478,21 +457,42 @@ open class BaseDialog (context: Context) : Dialog(context) {
 
     /** Displays body text of the dialog
      *
-     * @param text Text to display
+     * @param text - Text to display
      */
     fun setText(text : CharSequence?)
     {
-        setContentView(R.layout.text_screen)
-
         val textView = findViewById<TextView>(R.id.text)
-        if(text!=null && textView !=null)
+
+        if(text!=null && text != "" && textView !=null)
         {
             textView.text = text
-            //add links, if present
+            // add links, if present
             textView.movementMethod = LinkMovementMethod.getInstance()
+
+            textView.visibility = View.VISIBLE
         }
 
         if(text!=null)
             this.text = text.toString()
+    }
+
+    /**
+     * Adds a new button to the dialog. This button will simply close the dialog when clicked
+     *
+     * @param button - Which button to show.
+     *   Can be [BUTTON_NEGATIVE], [BUTTON_POSITIVE], or [BUTTON_NEUTRAL]
+     */
+    fun addButton(button: Int)
+    {
+        if(button in 1..7)
+            // Logical "or" to ensure that the button is on
+            setUseButton(useButton or button)
+    }
+
+    fun removeButton(button: Int)
+    {
+        if(button in 1..7)
+            // Logical "and" with inverted (not) button to ensure button is off
+            setUseButton( useButton and button.inv() )
     }
 }
