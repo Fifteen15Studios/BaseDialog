@@ -5,7 +5,7 @@ An Android dialog that mimics system dialogs, but can use custom views.
 
 To display a custom view call `setContentView` passing in a view or a resource id, or you can call `setText(String text)` to treat it as an AlertDialog.
 
-From there, you can get elements of that view by using `findViewById(int resourceID)`
+From there, you can get elements of that view by using `findViewById(int resourceId)`. If using BaseDialog as a standalone object, `findViewById` must be called on the dialog object: `View myView = dialog.findViewById(resourceId);`
 
 ## Buttons
 
