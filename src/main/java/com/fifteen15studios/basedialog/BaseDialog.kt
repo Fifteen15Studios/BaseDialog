@@ -13,7 +13,7 @@ import android.view.ViewGroup
 import android.widget.*
 import java.lang.IllegalStateException
 
-class BaseDialog (context: Context) : Dialog(context) {
+open class BaseDialog (context: Context) : Dialog(context) {
 
     companion object {
         const val BUTTON_POSITIVE = 1
