@@ -22,19 +22,6 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-task deleteJar(type: Delete) {
-    delete 'libs/BaseDialog.jar'
-}
-
-task createJar(type: Copy) {
-    from('build/intermediates/intermediate-jars/release')
-    into('libs/')
-    include('classes.jar')
-    rename('classes.jar', 'BaseDialog.jar')
-}
-
-createJar.dependsOn(deleteJar, build)
-
 android {
     compileSdkVersion 29
 
