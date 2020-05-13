@@ -223,7 +223,7 @@ open class BaseDialog (context: Context) : Dialog(context) {
     /**
      * Resize the dialog after view has changed.
      */
-    private fun resize()
+    fun resize()
     {
         val tableLayout = findViewById<TableLayout>(R.id.buttonTable)
         val tableHeight = tableLayout.height
