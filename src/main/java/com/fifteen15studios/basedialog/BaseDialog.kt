@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat
 import java.lang.IllegalStateException
 
 open class BaseDialog (context: Context) : Dialog(context) {
@@ -89,6 +90,9 @@ open class BaseDialog (context: Context) : Dialog(context) {
             if (text != null)
                 okButton.text = positiveLabel
 
+            okButton.setTextColor(getColor(context, R.attr.colorPrimary,
+                context.resources.getColor(android.R.color.black)))
+
             okButton.setOnClickListener(listener)
         }
     }
@@ -128,6 +132,9 @@ open class BaseDialog (context: Context) : Dialog(context) {
 
             if (text != null)
                 button.text = neutralLabel
+
+            button.setTextColor(getColor(context, R.attr.colorPrimary,
+                context.resources.getColor(android.R.color.black)))
 
             button.setOnClickListener(listener)
         }
@@ -171,7 +178,32 @@ open class BaseDialog (context: Context) : Dialog(context) {
             if (text != null)
                 cancelButton.text = negativeLabel
 
+            cancelButton.setTextColor(getColor(context, R.attr.colorPrimary,
+                context.resources.getColor(android.R.color.black)))
+
             cancelButton.setOnClickListener(listener)
+        }
+    }
+
+    private fun getColor(context: Context, resourceID : Int, defaultColor : Int) : Int
+    {
+        // Get color values
+        val outValue = TypedValue()
+        val theme = context.theme
+        val wasResolved = theme.resolveAttribute(
+            resourceID, outValue, true)
+
+        return if (wasResolved) {
+            try {
+                ContextCompat.getColor(context, outValue.resourceId)
+            }
+            catch (e : Exception)
+            {
+                defaultColor
+            }
+        } else {
+            // fallback color handling
+            defaultColor
         }
     }
 
